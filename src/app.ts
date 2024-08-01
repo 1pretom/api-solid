@@ -7,8 +7,8 @@ const prisma = new PrismaClient();
 
 prisma.user.create({
   data: {
-    name: "Alice",
-    email: "alice@example.com",
+    name: "Wash",
+    email: "washington@example.com",
     dateOfBirth: new Date(2000, 1, 2),
     shirtNumber: 10,
   },
