@@ -14,11 +14,30 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(uuid())
-  name        String
-  email       String   @unique
-  shirtNumber Int
-  dateOfBirth DateTime
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  shirt_number  Int
+  date_of_birth DateTime
 
   @@map("users")
+}
+
+model Payment {
+  id           String   @id @default(uuid())
+  user_id      String
+  amount       Float
+  payment_date DateTime
+
+  @@map("payments")
+}
+
+model Stats {
+  id       String @id @default(uuid())
+  big_wall Int?
+  sheriff  Int?
+  goals    Int?
+  assists  Int?
+
+  @@map("stats")
 }
