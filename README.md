@@ -1,6 +1,6 @@
 # App
 
-gympass style app.
+App to save data.
 
 ## RFs (requisitos funcionais)
 
