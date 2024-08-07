@@ -17,6 +17,8 @@ model User {
   id            String   @id @default(uuid())
   name          String
   email         String   @unique
+  password_hash String
+  created_at    DateTime @default(now())
   shirt_number  Int
   date_of_birth DateTime
 
@@ -27,17 +29,16 @@ model Payment {
   id           String   @id @default(uuid())
   user_id      String
   amount       Float
-  payment_date DateTime
+  payment_date DateTime @default(now())
 
   @@map("payments")
 }
 
-model Stats {
-  id       String @id @default(uuid())
-  big_wall Int?
-  sheriff  Int?
-  goals    Int?
-  assists  Int?
+model Group {
+  id         String   @id @default(uuid())
+  name       String
+  icon       String?
+  created_at DateTime @default(now())
 
-  @@map("stats")
+  @@map("groups")
 }
