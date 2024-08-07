@@ -9,7 +9,8 @@ prisma.user.create({
   data: {
     name: "Washington luis",
     email: "washington@example.com",
-    dateOfBirth: new Date(2000, 1, 2),
-    shirtNumber: 10,
+    date_of_birth: new Date(2000, 1, 2),
+    shirt_number: 10,
+    password_hash: '123'
   },
 });

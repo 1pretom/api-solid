@@ -14,22 +14,26 @@ datasource db {
 }
 
 model User {
-  id            String   @id @default(uuid())
+  id            String    @id @default(uuid())
   name          String
-  email         String   @unique
+  email         String    @unique
   password_hash String
-  created_at    DateTime @default(now())
+  created_at    DateTime  @default(now())
   shirt_number  Int
   date_of_birth DateTime
+  Payment       Payment[]
+  Group         Group[]
 
   @@map("users")
 }
 
 model Payment {
   id           String   @id @default(uuid())
-  user_id      String
   amount       Float
   payment_date DateTime @default(now())
+  user         User     @relation(fields: [user_id], references: [id])
+  user_id      String
+  Group        Group[]
 
   @@map("payments")
 }
@@ -39,6 +43,10 @@ model Group {
   name       String
   icon       String?
   created_at DateTime @default(now())
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String
+  payment    Payment  @relation(fields: [payment_id], references: [id])
+  payment_id String
 
   @@map("groups")
 }
