@@ -11,7 +11,9 @@
     "start:docker": "docker start api-solid-pg",
     "compose:up": "docker compose up -d",
     "compose:stop": "docker compose stop",
-    "compose:down": "docker compose down"
+    "compose:down": "docker compose down",
+    "migrate:dev": "prisma migrate dev",
+    "start:studio": "prisma studio"
   },
   "keywords": [],
   "author": "",

@@ -20,7 +20,7 @@ model User {
   password_hash String
   created_at    DateTime  @default(now())
   shirt_number  Int
-  date_of_birth DateTime
+  date_of_birth String?
   Payment       Payment[]
   Group         Group[]
 

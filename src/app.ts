@@ -1,16 +1,28 @@
-import { PrismaClient } from "@prisma/client";
 import fastify from "fastify";
+import { z } from "zod";
+import { prisma } from "./lib/prisma";
 
 export const app = fastify();
 
-const prisma = new PrismaClient();
+app.post("/users", async (request, reply) => {
+  const registerBodySchema = z.object({
+    name: z.string(),
+    email: z.string().email(),
+    password: z.string().min(8),
+    shirtNumber: z.number(),
+    dateOfBirth: z.string(),
+  });
+  const { dateOfBirth, email, name, password, shirtNumber } =
+    registerBodySchema.parse(request.body);
 
-prisma.user.create({
-  data: {
-    name: "Washington luis",
-    email: "washington@example.com",
-    date_of_birth: new Date(2000, 1, 2),
-    shirt_number: 10,
-    password_hash: '123'
-  },
+  await prisma.user.create({
+    data: {
+      name,
+      email,
+      password_hash: password,
+      shirt_number: shirtNumber,
+      date_of_birth: dateOfBirth,
+    },
+  });
+  return reply.status(201).send()
 });
