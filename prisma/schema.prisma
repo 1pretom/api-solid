@@ -22,8 +22,7 @@ model User {
   shirt_number  Int
   date_of_birth DateTime
   Payment       Payment[]
-  Group         Group     @relation(fields: [group_id], references: [id])
-  group_id      String
+  Group         Group[]
 
   @@map("users")
 }
@@ -34,8 +33,7 @@ model Payment {
   payment_date DateTime @default(now())
   user         User     @relation(fields: [user_id], references: [id])
   user_id      String
-  Group        Group    @relation(fields: [group_id], references: [id])
-  group_id     String
+  Group        Group[]
 
   @@map("payments")
 }
@@ -45,9 +43,10 @@ model Group {
   name       String
   icon       String?
   created_at DateTime @default(now())
-
-  payment Payment[]
-  User    User[]
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String
+  payment    Payment? @relation(fields: [payment_id], references: [id])
+  payment_id String?
 
   @@map("groups")
 }
