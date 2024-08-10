@@ -1,6 +1,6 @@
 import fastify from "fastify";
-import { register } from "./http/controler/register";
+import { appRoutes } from "./http/routes";
 
-export const app = fastify();
+export const { register } = fastify();
 
-app.post("/users", register);
+register(appRoutes);
