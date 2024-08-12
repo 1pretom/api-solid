@@ -1,6 +1,4 @@
-import { prisma } from "@/lib/prisma";
 import { registerUseCase } from "@/use-cases/register";
-import { hash } from "bcryptjs";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
@@ -18,16 +16,16 @@ export const register = async (
   const { dateOfBirth, email, name, password, shirtNumber } =
     registerBodySchema.parse(request.body);
 
-try {
-  await registerUseCase({
-    dateOfBirth,
-    email,
-    name,
-    password,
-    shirtNumber,
-  })
-} catch (error) {
-  return reply.status(409).send()
-}
+  try {
+    await registerUseCase({
+      dateOfBirth,
+      email,
+      name,
+      password,
+      shirtNumber,
+    });
+  } catch (error) {
+    return reply.status(409).send();
+  }
   return reply.status(201).send();
 };
