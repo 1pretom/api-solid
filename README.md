@@ -1,6 +1,6 @@
 # App
 
-App to save data.
+Apps to save data.
 
 ## RFs (requisitos funcionais)
 
