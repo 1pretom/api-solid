@@ -26,7 +26,7 @@ Apps to save data.
 
 ## RNF (requisitos não-funcionais)
 
-- [] A senha do usuário precisa estar criptografada;
-- [] Os dados da aplicação precisam estar persistidos em um banco postgreSQL;
-- [] Todas listas de dados precisam estar paginadas com 20 itens por página;
-- [] O usuário deve ser identificado por um JWT (JSON Web Token)
+- [x] A senha do usuário precisa estar criptografada;
+- [ ] Os dados da aplicação precisam estar persistidos em um banco postgreSQL;
+- [ ] Todas listas de dados precisam estar paginadas com 20 itens por página;
+- [ ] O usuário deve ser identificado por um JWT (JSON Web Token)
