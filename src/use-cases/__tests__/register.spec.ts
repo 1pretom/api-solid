@@ -34,4 +34,29 @@ describe("Register Use Case", () => {
     );
     expect(isPasswordCorrectlyHashed).toBeTruthy();
   });
+  it('should not be able to register with same email twice', async () => {
+    const usersRepository = new InMemoryUsersRepository()
+    const registerUseCase = new RegisterUseCase(usersRepository)
+
+    const email = 'johndoe@example.com'
+
+    await registerUseCase.execute({
+      name: "Wash",
+      dateOfBirth: "",
+      email: "wash@example.com",
+      password: "123456",
+      shirtNumber: 1,
+
+    })
+
+    expect(() =>
+      registerUseCase.execute({
+        name: "Wash",
+        dateOfBirth: "",
+        email: "wash@example.com",
+        password: "123456",
+        shirtNumber: 1,
+      }),
+    ).rejects.toBeInstanceOf(UserAlreadyExistsError)
+  })
 });
