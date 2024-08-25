@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { RegisterUseCase } from "../register";
 import { compare } from "bcryptjs";
+import { UserAlreadyExistsError } from "../errors/user-already-exists-error";
+import { InMemoryUsersRepository } from "../../repositories/in-memory/in-memory-users-repository";
 
 describe("Register Use Case", () => {
-  it("should first", async () => {
+  it("should hash user password upon registration", async () => {
     const registerUseCase = new RegisterUseCase({
       async findByEmail(email) {
         return null;
@@ -38,7 +40,6 @@ describe("Register Use Case", () => {
     const usersRepository = new InMemoryUsersRepository()
     const registerUseCase = new RegisterUseCase(usersRepository)
 
-    const email = 'johndoe@example.com'
 
     await registerUseCase.execute({
       name: "Wash",
@@ -49,7 +50,7 @@ describe("Register Use Case", () => {
 
     })
 
-    expect(() =>
+    await expect(() =>
       registerUseCase.execute({
         name: "Wash",
         dateOfBirth: "",
@@ -59,4 +60,5 @@ describe("Register Use Case", () => {
       }),
     ).rejects.toBeInstanceOf(UserAlreadyExistsError)
   })
+  
 });
