@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { RegisterUseCase } from "../register";
+import { RegisterUseCase } from "../register-use-case";
 import { compare } from "bcryptjs";
 import { UserAlreadyExistsError } from "../errors/user-already-exists-error";
 import { InMemoryUsersRepository } from "../../repositories/in-memory/in-memory-users-repository";
