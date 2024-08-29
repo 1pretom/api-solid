@@ -5,7 +5,7 @@ Apps to save data.
 ## RFs (requisitos funcionais)
 
 - [x] Deve ser possível se cadastrar no app;
-- [ ] Deve ser possível se autenticar;
+- [x] Deve ser possível se autenticar;
 - [ ] Deve ser possível obter o perfil de um usuário logado;
 - [ ] Deve ser possível obter o numero de check-ins realizados pelo usuário logado;
 - [ ] Deve ser possível o usuário obter seu histórico de check-ins;
