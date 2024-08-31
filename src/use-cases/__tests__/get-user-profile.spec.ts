@@ -32,7 +32,7 @@ describe("Get User Profile Use Case", () => {
   it("should not be able to getUserProfile with wrong id", async () => {
     expect(() =>
       sut.execute({
-        userId: "not-found-id",
+        userId: "not-found-id2",
       })
     ).rejects.toBeInstanceOf(ResourceNotFountError);
   });
