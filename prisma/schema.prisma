@@ -28,25 +28,26 @@ model User {
 }
 
 model Payment {
-  id           String   @id @default(uuid())
-  amount       Float
-  payment_date DateTime @default(now())
-  user         User     @relation(fields: [user_id], references: [id])
-  user_id      String
-  Group        Group[]
+  id         String   @id @default(uuid())
+  amount     Float
+  created_at DateTime @default(now())
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String
+  group      Group    @relation(fields: [group_id], references: [id])
+  group_id   String
 
   @@map("payments")
 }
 
 model Group {
-  id         String   @id @default(uuid())
+  id         String    @id @default(uuid())
   name       String
   icon       String
-  created_at DateTime @default(now())
-  user       User     @relation(fields: [user_id], references: [id])
+  created_at DateTime  @default(now())
+  user       User      @relation(fields: [user_id], references: [id])
   user_id    String
-  payment    Payment? @relation(fields: [payment_id], references: [id])
-  payment_id String?
+  payment_id String
+  Payment    Payment[]
 
   @@map("groups")
 }
