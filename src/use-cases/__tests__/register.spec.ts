@@ -19,13 +19,13 @@ describe("Register Use Case", () => {
 
       async create(data) {
         return {
-          id: "user-1",
+          id: data.id,
           name: data.name,
           email: data.email,
           password_hash: data.password_hash,
           shirt_number: data.shirt_number,
-          created_at: new Date(),
-          date_of_birth: "data.date_of_birth",
+          created_at: data.created_at,
+          date_of_birth: data.date_of_birth,
         };
       },
     });
