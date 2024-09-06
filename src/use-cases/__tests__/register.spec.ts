@@ -31,7 +31,7 @@ describe("Register Use Case", () => {
     });
     const { user } = await registerUseCase.execute({
       name: "Wash",
-      dateOfBirth: "",
+      dateOfBirth: String(Date.now()),
       email: "wash@example.com",
       password: "123456",
       shirtNumber: 1,
