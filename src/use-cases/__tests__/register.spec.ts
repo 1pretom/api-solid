@@ -53,7 +53,7 @@ describe("Register Use Case", () => {
 
     await expect(() =>
       sut.execute({
-        name: "Wash",
+        name: "Washington",
         dateOfBirth: "",
         email: "wash@example.com",
         password: "123456",
