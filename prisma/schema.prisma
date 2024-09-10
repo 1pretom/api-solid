@@ -41,16 +41,15 @@ model Payment {
 }
 
 model Group {
-  id          String    @id @default(uuid())
-  name        String
-  icon        String
-  created_at  DateTime  @default(now())
-  user        User      @relation(fields: [user_id], references: [id])
-  user_id     String
-  payment_id  String
-  Payment     Payment[]
-  Presence    Presence? @relation(fields: [presence_id], references: [id])
-  presence_id String?
+  id         String     @id @default(uuid())
+  name       String
+  icon       String
+  created_at DateTime   @default(now())
+  user       User       @relation(fields: [user_id], references: [id])
+  user_id    String
+  payment_id String
+  Payment    Payment[]
+  Presence   Presence[]
 
   @@map("groups")
 }
@@ -60,7 +59,8 @@ model Presence {
   created_at DateTime @default(now())
   user       User     @relation(fields: [user_id], references: [id])
   user_id    String
-  group      Group[]
+  group      Group    @relation(fields: [group_id], references: [id])
+  group_id   String
 
   @@map("presence")
 }
