@@ -14,15 +14,16 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(uuid())
+  id            String     @id @default(uuid())
   name          String
-  email         String    @unique
+  email         String     @unique
   password_hash String
-  created_at    DateTime  @default(now())
+  created_at    DateTime   @default(now())
   shirt_number  Int
   date_of_birth String
   Payment       Payment[]
   Group         Group[]
+  Presence      Presence[]
 
   @@map("users")
 }
@@ -40,14 +41,26 @@ model Payment {
 }
 
 model Group {
-  id         String    @id @default(uuid())
-  name       String
-  icon       String
-  created_at DateTime  @default(now())
-  user       User      @relation(fields: [user_id], references: [id])
-  user_id    String
-  payment_id String
-  Payment    Payment[]
+  id          String    @id @default(uuid())
+  name        String
+  icon        String
+  created_at  DateTime  @default(now())
+  user        User      @relation(fields: [user_id], references: [id])
+  user_id     String
+  payment_id  String
+  Payment     Payment[]
+  Presence    Presence? @relation(fields: [presence_id], references: [id])
+  presence_id String?
 
   @@map("groups")
+}
+
+model Presence {
+  id         String   @id @default(uuid())
+  created_at DateTime @default(now())
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String
+  group      Group[]
+
+  @@map("presence")
 }
