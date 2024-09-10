@@ -49,7 +49,6 @@ model Group {
   longitude  Decimal
   user       User       @relation(fields: [user_id], references: [id])
   user_id    String
-  payment_id String
   Payment    Payment[]
   Presence   Presence[]
 
