@@ -1,6 +1,4 @@
-import { hash } from "bcryptjs";
-import { expect, describe, it, beforeEach } from "vitest";
-import { InvalidCredentialsError } from "../errors/invalid-credentials-error";
+import { expect, describe, it, beforeEach, vi, afterEach } from "vitest";
 import { InMemoryPaymentsRepository } from "../../repositories/in-memory/in-memory-payments-repository";
 import { PaymentUseCase } from "../payment-use-case";
 
@@ -11,48 +9,54 @@ describe("payment Use Case", () => {
   beforeEach(() => {
     PaymentsRepository = new InMemoryPaymentsRepository();
     sut = new PaymentUseCase(PaymentsRepository);
+    vi.useFakeTimers();
   });
-  it.only("should be able to register payment", async () => {
-    // await PaymentsRepository.create({
-    //   id: 'data',
-    //   amount: 32.2,
-    //   group_id: 'group_id',
-    //   user_id: 'user_id',
-    // });
-
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+  it("should be able to register payment", async () => {
     const { payment } = await sut.execute({
-      
       amount: 32.2,
-      groupId: 'group_id',
-      userId: 'user_id',
+      groupId: "group_id",
+      userId: "user_id",
     });
 
     expect(payment.id).toEqual(expect.any(String));
   });
 
-  it("should not be able to payment with wrong email", async () => {
-    expect(() =>
-      sut.execute({
-        email: "johndoe@example.com",
-        password: "123456",
-      })
-    ).rejects.toBeInstanceOf(InvalidCredentialsError);
-  });
+  it("should not be able to pay twice in the same day", async () => {
+    vi.setSystemTime(new Date(2024, 0, 1, 13, 0, 0));
 
-  it("should not be able to payment with wrong email", async () => {
-    await PaymentsRepository.create({
-      name: "John Doe",
-      email: "johndoe@example.com",
-      password_hash: await hash("12345678", 8),
-      date_of_birth: "sim",
-      shirt_number: 2,
+    await sut.execute({
+      amount: 32.2,
+      groupId: "group_id",
+      userId: "user_id",
+    });
+    await expect(() =>
+      sut.execute({
+        amount: 32.2,
+        groupId: "group_id",
+        userId: "user_id",
+      })
+    ).rejects.toBeInstanceOf(Error);
+  });
+  it("should be able to pay twice in different days", async () => {
+    vi.setSystemTime(new Date(2024, 0, 1, 13, 0, 0));
+    
+    await sut.execute({
+      amount: 32.2,
+      groupId: "group_id",
+      userId: "user_id",
     });
 
-    expect(() =>
-      sut.execute({
-        email: "johndoe@example.com",
-        password: "123123",
-      })
-    ).rejects.toBeInstanceOf(InvalidCredentialsError);
+    vi.setSystemTime(new Date(2024, 0, 2, 13, 0, 0));
+    
+    const { payment } = await sut.execute({
+      amount: 32.2,
+      groupId: "group_id",
+      userId: "user_id",
+    });
+
+    expect(payment.id).toEqual(expect.any(String));
   });
 });
