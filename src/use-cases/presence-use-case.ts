@@ -2,6 +2,7 @@ import { Presence } from "@prisma/client";
 import { PresencesRepository } from "../repositories/presences-repository";
 import { GroupsRepository } from "@/repositories/groups-repository";
 import { ResourceNotFountError } from "./errors/resource-not-found-error";
+import { getDistanceBetweenCoordinates } from "../utils/get-distance-between-coordinates";
 
 interface PresenceCaseRequest {
   userId: string;
@@ -22,11 +23,24 @@ export class PresenceUseCase {
   async execute({
     groupId,
     userId,
+    userLatitude,
+    userLongitude,
   }: PresenceCaseRequest): Promise<PresenceCaseResponse> {
     const group = await this.groupsRepository.fingById(groupId);
 
     if (!group) {
       throw new ResourceNotFountError();
+    }
+    const distance = getDistanceBetweenCoordinates(
+      { latitude: userLatitude, longitude: userLongitude },
+      {
+        latitude: group.latitude.toNumber(),
+        longitude: group.longitude.toNumber(),
+      }
+    );
+    const MAX_DISTANCE_IN_KM = 0.1;
+    if (distance > MAX_DISTANCE_IN_KM) {
+      throw new Error();
     }
 
     const presenceOnSameDate =
