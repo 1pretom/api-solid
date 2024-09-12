@@ -41,16 +41,17 @@ model Payment {
 }
 
 model Group {
-  id         String     @id @default(uuid())
-  name       String
-  icon       String
-  created_at DateTime   @default(now())
-  latitude   Decimal
-  longitude  Decimal
-  user       User       @relation(fields: [user_id], references: [id])
-  user_id    String
-  Payment    Payment[]
-  Presence   Presence[]
+  id          String     @id @default(uuid())
+  name        String
+  icon        String
+  description String?
+  created_at  DateTime   @default(now())
+  latitude    Decimal
+  longitude   Decimal
+  user        User       @relation(fields: [user_id], references: [id])
+  user_id     String
+  Payment     Payment[]
+  Presence    Presence[]
 
   @@map("groups")
 }
