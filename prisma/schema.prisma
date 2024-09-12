@@ -42,7 +42,7 @@ model Payment {
 
 model Group {
   id          String     @id @default(uuid())
-  name        String
+  title       String
   icon        String
   description String?
   created_at  DateTime   @default(now())
