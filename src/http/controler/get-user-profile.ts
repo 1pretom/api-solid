@@ -1,4 +1,4 @@
-import { ResourceNotFountError } from "@/use-cases/errors/resource-not-found-error";
+import { ResourceNotFoundError } from "@/use-cases/errors/resource-not-found-error";
 import { makeGetUserProfileUseCase } from "@/use-cases/factories/make-get-user-profile-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
@@ -18,7 +18,7 @@ export const getUserProfile = async (
       userId
     });
   } catch (error) {
-    if (error instanceof ResourceNotFountError) {
+    if (error instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: error.message });
     }
     throw error;
