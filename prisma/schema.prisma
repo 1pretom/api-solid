@@ -48,8 +48,8 @@ model Group {
   created_at  DateTime   @default(now())
   latitude    Decimal
   longitude   Decimal
-  user        User       @relation(fields: [user_id], references: [id])
-  user_id     String
+  user        User?      @relation(fields: [user_id], references: [id])
+  user_id     String?
   Payment     Payment[]
   Presence    Presence[]
 
