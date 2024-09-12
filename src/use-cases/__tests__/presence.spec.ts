@@ -3,25 +3,27 @@ import { PresenceUseCase } from "../presence-use-case";
 import { InMemoryPresencesRepository } from "../../repositories/in-memory/in-memory-presence-repository";
 import { InMemoryGroupsRepository } from "../../repositories/in-memory/in-memory-groups-repository";
 import { Decimal } from "@prisma/client/runtime/library";
+import { MaxNumberOfPresencesError } from "../errors/max-number-of-presences-error";
+import { MaxDistanceError } from "../errors/max-distance-error";
 
 let presencesRepository: InMemoryPresencesRepository;
 let groupsRepository: InMemoryGroupsRepository;
 let sut: PresenceUseCase;
 
 describe("presence Use Case", () => {
-  beforeEach(() => {
+  beforeEach(async() => {
     presencesRepository = new InMemoryPresencesRepository();
     groupsRepository = new InMemoryGroupsRepository();
-    sut = new PresenceUseCase(presencesRepository, groupsRepository);
+    sut = new PresenceUseCase(presencesRepository, groupsRepository as any);
 
-    groupsRepository.items.push({
+    await groupsRepository.create({
       id: "group_id",
-      name: "Baba europeu",
+      title: "Baba europeu",
       icon: "does_not_have.com",
-      user_id: "",
       created_at: new Date(Date.now()),
       latitude: new Decimal(-12.91915642530577),
       longitude: new Decimal(-38.428171065849604),
+      description: null
     });
 
     vi.useFakeTimers();
@@ -56,7 +58,7 @@ describe("presence Use Case", () => {
         userLatitude: -12.91915642530577,
         userLongitude: -38.428171065849604,
       })
-    ).rejects.toBeInstanceOf(Error);
+    ).rejects.toBeInstanceOf(MaxNumberOfPresencesError);
   });
   it("should be able to register presence in different days", async () => {
     vi.setSystemTime(new Date(2024, 0, 1, 13, 0, 0));
@@ -83,12 +85,13 @@ describe("presence Use Case", () => {
   it("should'n be able to register presence in distant group", async () => {
     groupsRepository.items.push({
       id: "group_id_2",
-      name: "Academia ponto alto",
+      title: "Academia ponto alto",
       icon: "does_not_have.com",
       user_id: "",
       created_at: new Date(Date.now()),
       latitude: new Decimal(-12.9330066799359),
       longitude: new Decimal(-38.426607653070896),
+      description: null
     });
 
     await expect(() =>
@@ -98,6 +101,6 @@ describe("presence Use Case", () => {
         userLatitude: -12.91915642530577,
         userLongitude: -38.428171065849604,
       })
-    ).rejects.toBeInstanceOf(Error);
+    ).rejects.toBeInstanceOf(MaxDistanceError);
   });
 });
