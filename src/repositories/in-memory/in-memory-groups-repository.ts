@@ -14,5 +14,21 @@ export class InMemoryGroupsRepository implements GroupsRepository {
 
     return group;
   }
-  
+
+  async create(data: Prisma.GroupCreateInput) {
+    const group = {
+      id: data.id ?? randomUUID(),
+      title: data.title,
+      description: data.description ?? null,
+      icon: data.icon ?? null,
+      latitude: new Prisma.Decimal(data.latitude.toString()),
+      longitude: new Prisma.Decimal(data.longitude.toString()),
+      created_at: new Date(),
+      user_id: "" ?? data.user,
+    };
+
+    this.items.push(group);
+
+    return group;
+  }
 }

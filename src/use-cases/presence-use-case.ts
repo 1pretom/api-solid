@@ -1,8 +1,10 @@
 import { Presence } from "@prisma/client";
 import { PresencesRepository } from "../repositories/presences-repository";
 import { GroupsRepository } from "@/repositories/groups-repository";
-import { ResourceNotFountError } from "./errors/resource-not-found-error";
+import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 import { getDistanceBetweenCoordinates } from "../utils/get-distance-between-coordinates";
+import { MaxNumberOfPresencesError } from "./errors/max-number-of-presences-error";
+import { MaxDistanceError } from "./errors/max-distance-error";
 
 interface PresenceCaseRequest {
   userId: string;
@@ -29,7 +31,7 @@ export class PresenceUseCase {
     const group = await this.groupsRepository.fingById(groupId);
 
     if (!group) {
-      throw new ResourceNotFountError();
+      throw new ResourceNotFoundError();
     }
     const distance = getDistanceBetweenCoordinates(
       { latitude: userLatitude, longitude: userLongitude },
@@ -40,13 +42,13 @@ export class PresenceUseCase {
     );
     const MAX_DISTANCE_IN_KM = 0.1;
     if (distance > MAX_DISTANCE_IN_KM) {
-      throw new Error();
+      throw new MaxDistanceError();
     }
 
     const presenceOnSameDate =
       await this.presencesRepository.findByUserIdOnDate(userId, new Date());
     if (presenceOnSameDate) {
-      throw new Error();
+      throw new MaxNumberOfPresencesError();
     }
 
     const presence = await this.presencesRepository.create({

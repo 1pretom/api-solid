@@ -1,34 +1,36 @@
-import { UsersRepository } from "@/repositories/users-repository";
+import { GroupsRepository } from "@/repositories/groups-repository";
 import { hash } from "bcryptjs";
-import { UserAlreadyExistsError } from "./errors/user-already-exists-error";
-import { User } from "@prisma/client";
+import { Group } from "@prisma/client";
 
-interface CreateGymUseCaseRequest {
+interface CreateGroupUseCaseRequest {
   title: string;
-  description: string | null;
+  description?: string | null;
+  icon: string;
+  latitude: number;
+  longitude: number;
 }
-interface CreateGymUseCaseResponse {
-  user: User;
+interface CreateGroupUseCaseResponse {
+  group: Group;
 }
 
-export class RegisterUseCase {
-  constructor(private usersRepository: UsersRepository) {}
+export class CreateGroupUseCase {
+  constructor(private groupsRepository: GroupsRepository) {}
   async execute({
     title,
     description,
-  }: CreateGymUseCaseRequest): Promise<CreateGymUseCaseRequest> {
-    const password_hash = await hash(password, 6); //6 é o valor de rounds que o hash é gerado, e 6 é um valor bom para aplicações web
-
-    const userWithSameEmail = await this.usersRepository.findByEmail(email);
-    if (userWithSameEmail) {
-      throw new UserAlreadyExistsError();
-    }
-
-    const gym = await this.usersRepository.create({
-
+    icon,
+    latitude,
+    longitude,
+  }: CreateGroupUseCaseRequest): Promise<CreateGroupUseCaseResponse> {
+    const group = await this.groupsRepository.create({
+      title,
+      description,
+      icon,
+      latitude,
+      longitude,
     });
     return {
-      gym
+      group,
     };
   }
 }
