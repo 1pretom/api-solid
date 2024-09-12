@@ -7,19 +7,16 @@ interface CreateGymUseCaseRequest {
   title: string;
   description: string | null;
 }
-interface RegisterUseCaseResponse {
+interface CreateGymUseCaseResponse {
   user: User;
 }
 
 export class RegisterUseCase {
   constructor(private usersRepository: UsersRepository) {}
   async execute({
-    password,
-    email,
-    name,
-    shirtNumber,
-    dateOfBirth,
-  }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
+    title,
+    description,
+  }: CreateGymUseCaseRequest): Promise<CreateGymUseCaseRequest> {
     const password_hash = await hash(password, 6); //6 é o valor de rounds que o hash é gerado, e 6 é um valor bom para aplicações web
 
     const userWithSameEmail = await this.usersRepository.findByEmail(email);
@@ -27,15 +24,11 @@ export class RegisterUseCase {
       throw new UserAlreadyExistsError();
     }
 
-    const user = await this.usersRepository.create({
-      email,
-      name,
-      password_hash,
-      shirt_number: shirtNumber,
-      date_of_birth: dateOfBirth,
+    const gym = await this.usersRepository.create({
+
     });
     return {
-      user,
+      gym
     };
   }
 }
