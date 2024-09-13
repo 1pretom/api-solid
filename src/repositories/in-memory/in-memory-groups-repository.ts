@@ -5,7 +5,7 @@ import { randomUUID } from "node:crypto";
 export class InMemoryGroupsRepository implements GroupsRepository {
   public items: Group[] = [];
 
-  async fingById(id: string) {
+  async findById(id: string) {
     const group = this.items.find((item) => item.id === id);
 
     if (!group) {

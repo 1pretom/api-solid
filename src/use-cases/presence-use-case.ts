@@ -6,13 +6,13 @@ import { getDistanceBetweenCoordinates } from "../utils/get-distance-between-coo
 import { MaxNumberOfPresencesError } from "./errors/max-number-of-presences-error";
 import { MaxDistanceError } from "./errors/max-distance-error";
 
-interface PresenceCaseRequest {
+interface PresenceUseCaseRequest {
   userId: string;
   groupId: string;
   userLatitude: number;
   userLongitude: number;
 }
-interface PresenceCaseResponse {
+interface PresenceUseCaseResponse {
   presence: Presence;
 }
 
@@ -27,8 +27,8 @@ export class PresenceUseCase {
     userId,
     userLatitude,
     userLongitude,
-  }: PresenceCaseRequest): Promise<PresenceCaseResponse> {
-    const group = await this.groupsRepository.fingById(groupId);
+  }: PresenceUseCaseRequest): Promise<PresenceUseCaseResponse> {
+    const group = await this.groupsRepository.findById(groupId);
 
     if (!group) {
       throw new ResourceNotFoundError();

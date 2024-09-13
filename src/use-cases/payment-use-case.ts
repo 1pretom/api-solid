@@ -1,12 +1,12 @@
 import { PaymentsRepository } from "@/repositories/payments-repository";
 import { Payment } from "@prisma/client";
 
-interface PaymentCaseRequest {
+interface PaymentUseCaseRequest {
   userId: string;
   groupId: string;
   amount: number;
 }
-interface PaymentCaseResponse {
+interface PaymentUseCaseResponse {
   payment: Payment;
 }
 
@@ -17,7 +17,7 @@ export class PaymentUseCase {
     groupId,
     userId,
     amount,
-  }: PaymentCaseRequest): Promise<PaymentCaseResponse> {
+  }: PaymentUseCaseRequest): Promise<PaymentUseCaseResponse> {
 
     const paymentOnSameDate = await this.paymentsRepository.findByUserIdOnDate(
       userId,
