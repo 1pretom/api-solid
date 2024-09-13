@@ -1,7 +1,7 @@
 import { Group, Prisma } from "@prisma/client";
 
 export interface FindManyNearbyParams {
-  latitute: number;
+  latitude: number;
   longitude: number;
 }
 export interface GroupsRepository {

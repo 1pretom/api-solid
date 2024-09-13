@@ -16,7 +16,7 @@ export class FetchNearbyGroupsUseCase {
     userLongitude,
   }: FetchNearbyGroupsUseCaseRequest): Promise<FetchNearbyGroupsUseCaseResponse> {
     const groups = await this.groupsRepository.findManyNearby({
-      latitute: userLatitude,
+      latitude: userLatitude,
       longitude: userLongitude,
     });
     return {
