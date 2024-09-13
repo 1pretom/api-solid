@@ -1,7 +1,7 @@
 import { Group, Prisma } from "@prisma/client";
 import { FindManyNearbyParams, GroupsRepository } from "../groups-repository";
 import { randomUUID } from "node:crypto";
-import { getDistanceBetweenCoordinates } from "@/utils/get-distance-between-coordinates";
+import { getDistanceBetweenCoordinates } from "../../utils/get-distance-between-coordinates";
 
 export class InMemoryGroupsRepository implements GroupsRepository {
   public items: Group[] = [];

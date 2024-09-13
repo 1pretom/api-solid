@@ -8,7 +8,7 @@ let sut: FetchUserPresencesHistoryUseCase
 describe('Fetch User Presences History Use Case', () => {
   beforeEach(async () => {
     presencesRepository = new InMemoryPresencesRepository()
-    sut = new FetchUserPresencesHistoryUseCase(presencesRepository)
+    sut = new FetchUserPresencesHistoryUseCase(presencesRepository as any)
   })
 
   it('should be able to fetch presences history', async () => {

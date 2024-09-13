@@ -11,7 +11,7 @@ let groupsRepository: InMemoryGroupsRepository;
 let sut: PresenceUseCase;
 
 describe("presence Use Case", () => {
-  beforeEach(async() => {
+  beforeEach(async () => {
     presencesRepository = new InMemoryPresencesRepository();
     groupsRepository = new InMemoryGroupsRepository();
     sut = new PresenceUseCase(presencesRepository, groupsRepository as any);
@@ -23,7 +23,7 @@ describe("presence Use Case", () => {
       created_at: new Date(Date.now()),
       latitude: new Decimal(-12.91915642530577),
       longitude: new Decimal(-38.428171065849604),
-      description: null
+      description: null,
     });
 
     vi.useFakeTimers();
@@ -51,15 +51,17 @@ describe("presence Use Case", () => {
       userLatitude: -12.91915642530577,
       userLongitude: -38.428171065849604,
     });
-    await expect(() =>
-      sut.execute({
+
+    await expect(async () => {
+      await sut.execute({
         groupId: "group_id",
         userId: "user_id",
         userLatitude: -12.91915642530577,
         userLongitude: -38.428171065849604,
-      })
-    ).rejects.toBeInstanceOf(MaxNumberOfPresencesError);
+      });
+    }).rejects.toThrow(MaxNumberOfPresencesError);
   });
+
   it("should be able to register presence in different days", async () => {
     vi.setSystemTime(new Date(2024, 0, 1, 13, 0, 0));
 
@@ -91,7 +93,7 @@ describe("presence Use Case", () => {
       created_at: new Date(Date.now()),
       latitude: new Decimal(-12.9330066799359),
       longitude: new Decimal(-38.426607653070896),
-      description: null
+      description: null,
     });
 
     await expect(() =>
