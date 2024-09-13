@@ -6,13 +6,18 @@ import dayjs from "dayjs";
 export class InMemoryPaymentsRepository implements PaymentsRepository {
   public items: Payment[] = [];
 
+  async findManyByUserId(userId: string) {
+    return this.items.filter((payment) => payment.user_id === userId);
+  }
+
   async findByUserIdOnDate(userId: string, date: Date) {
     const startOfTheDay = dayjs(date).startOf("date");
     const endOfTheDay = dayjs(date).endOf("date");
 
     const paymentOnSameDate = this.items.find((payment) => {
       const paymentDate = dayjs(payment.created_at);
-      const isOnSabeDate = paymentDate.isAfter(startOfTheDay) && paymentDate.isBefore(endOfTheDay)
+      const isOnSabeDate =
+        paymentDate.isAfter(startOfTheDay) && paymentDate.isBefore(endOfTheDay);
 
       return payment.user_id === userId && isOnSabeDate;
     });

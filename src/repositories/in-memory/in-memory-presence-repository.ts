@@ -5,6 +5,10 @@ import dayjs from "dayjs";
 
 export class InMemoryPresencesRepository implements PresencesRepository {
   public items: Presence[] = [];
+  
+  async findManyByUserId(userId: string) {
+    return this.items.filter((presence) => presence.user_id === userId);
+  }
 
   async findByUserIdOnDate(userId: string, date: Date) {
     const startOfTheDay = dayjs(date).startOf("date");
@@ -12,7 +16,9 @@ export class InMemoryPresencesRepository implements PresencesRepository {
 
     const presenceOnSameDate = this.items.find((presence) => {
       const presenceDate = dayjs(presence.created_at);
-      const isOnSabeDate = presenceDate.isAfter(startOfTheDay) && presenceDate.isBefore(endOfTheDay)
+      const isOnSabeDate =
+        presenceDate.isAfter(startOfTheDay) &&
+        presenceDate.isBefore(endOfTheDay);
 
       return presence.user_id === userId && isOnSabeDate;
     });
