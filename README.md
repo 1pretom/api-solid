@@ -7,10 +7,10 @@ Apps to save data.
 - [x] Deve ser possível se cadastrar no app;
 - [x] Deve ser possível se autenticar;
 - [x] Deve ser possível obter o perfil de um usuário logado;
-- [ ] Deve ser possível obter o numero de pagamentos realizados pelo usuário logado;
-- [ ] Deve ser possível o usuário obter seu histórico de pagamentos;
-- [ ] Deve ser possível o usuário buscar academias próximas;
-- [ ] Deve ser possível o usuário buscar academias pelo nome;
+- [x] Deve ser possível obter o numero de pagamentos realizados pelo usuário logado;
+- [x] Deve ser possível o usuário obter seu histórico de presenças;
+- [x] Deve ser possível o usuário buscar grupos próximos (até 10km);
+- [x] Deve ser possível o usuário buscar grupos pelo nome;
 - [x] Deve ser possível o usuário realizar pagamento em um grupo;
 - [ ] Deve ser possível validar o pagamento de um usuário;
 - [x] Deve ser possível cadastrar um grupo.

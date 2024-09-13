@@ -1,6 +1,7 @@
 import { Group, Prisma } from "@prisma/client";
-import { GroupsRepository } from "../groups-repository";
+import { FindManyNearbyParams, GroupsRepository } from "../groups-repository";
 import { randomUUID } from "node:crypto";
+import { getDistanceBetweenCoordinates } from "@/utils/get-distance-between-coordinates";
 
 export class InMemoryGroupsRepository implements GroupsRepository {
   public items: Group[] = [];
@@ -9,6 +10,19 @@ export class InMemoryGroupsRepository implements GroupsRepository {
     return this.items
       .filter((item) => item.title.includes(query))
       .slice((page - 1) * 20, page * 20);
+  }
+
+  async findManyNearby(params: FindManyNearbyParams) {
+    return this.items.filter((item) => {
+      const distance = getDistanceBetweenCoordinates(
+        { latitude: params.latitute, longitude: params.longitude },
+        {
+          latitude: item.latitude.toNumber(),
+          longitude: item.longitude.toNumber(),
+        }
+      );
+      return distance < 10;
+    });
   }
 
   async findById(id: string) {
