@@ -11,15 +11,15 @@ Apps to save data.
 - [ ] Deve ser possível o usuário obter seu histórico de pagamentos;
 - [ ] Deve ser possível o usuário buscar academias próximas;
 - [ ] Deve ser possível o usuário buscar academias pelo nome;
-- [ ] Deve ser possível o usuário realizar pagamento em uma academia;
+- [x] Deve ser possível o usuário realizar pagamento em um grupo;
 - [ ] Deve ser possível validar o pagamento de um usuário;
-- [x] Deve ser possível cadastrar uma academia.
+- [x] Deve ser possível cadastrar um grupo.
 
 ## RNs (regras de negócios)
 
 - [x] O usuário não deve poder se cadastrar com um e-mail duplicado;
-- [x] O usuário não pode fazer 2 pagamentos no mesmo dia;
-- [ ] O usuário não pode fazer pagamento se não estiver perto (100m) da academia;
+- [x] O usuário não pode registrar 2 presenças no mesmo dia;
+- [x] O usuário não pode registrar presença se não estiver perto (100m) do grupo;
 - [ ] O pagamento só pode ser validado até 20 minutos após criado;
 - [ ] O pagamento só pode ser validado por administradores
 - [ ] A academia só pode ser cadastrada por administradores.
