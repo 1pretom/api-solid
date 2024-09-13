@@ -1,5 +1,4 @@
 import { GroupsRepository } from "@/repositories/groups-repository";
-import { hash } from "bcryptjs";
 import { Group } from "@prisma/client";
 
 interface CreateGroupUseCaseRequest {
