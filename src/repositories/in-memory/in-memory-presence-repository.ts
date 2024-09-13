@@ -6,12 +6,16 @@ import dayjs from "dayjs";
 export class InMemoryPresencesRepository implements PresencesRepository {
   public items: Presence[] = [];
 
-  async findManyByUserId(userId: string, page: number) {
-    return this.items
-      .filter((presence) => presence.user_id === userId)
-      .slice((page - 1) * 20, page * 20);
-  }
+  async create(data: Prisma.PresenceUncheckedCreateInput) {
+    const presence = {
+      id: randomUUID(),
+      group_id: data.group_id,
+      user_id: data.user_id,
+      created_at: new Date(),
+    };
 
+    return presence;
+  }
   async findByUserIdOnDate(userId: string, date: Date) {
     const startOfTheDay = dayjs(date).startOf("date");
     const endOfTheDay = dayjs(date).endOf("date");
@@ -30,16 +34,13 @@ export class InMemoryPresencesRepository implements PresencesRepository {
     return presenceOnSameDate;
   }
 
-  async create(data: Prisma.PresenceUncheckedCreateInput) {
-    const presence = {
-      id: randomUUID(),
-      group_id: data.group_id,
-      user_id: data.user_id,
-      created_at: new Date(),
-    };
+  async findManyByUserId(userId: string, page: number) {
+    return this.items
+      .filter((presence) => presence.user_id === userId)
+      .slice((page - 1) * 20, page * 20);
+  }
 
-    this.items.push(presence);
-
-    return presence;
+  async countByUserId(userId: string) {
+    return this.items.filter((presence) => presence.user_id === userId).length;
   }
 }
