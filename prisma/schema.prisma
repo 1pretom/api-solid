@@ -13,17 +13,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  ADMIN
+  MEMBER
+}
+
 model User {
-  id            String     @id @default(uuid())
+  id            String   @id @default(uuid())
   name          String
-  email         String     @unique
+  email         String   @unique
   password_hash String
-  created_at    DateTime   @default(now())
   shirt_number  Int
   date_of_birth String
-  Payment       Payment[]
-  Group         Group[]
-  Presence      Presence[]
+  created_at    DateTime @default(now())
+
+  Payment  Payment[]
+  Group    Group[]
+  Presence Presence[]
 
   @@map("users")
 }
@@ -32,37 +38,44 @@ model Payment {
   id         String   @id @default(uuid())
   amount     Float
   created_at DateTime @default(now())
-  user       User     @relation(fields: [user_id], references: [id])
-  user_id    String
-  group      Group    @relation(fields: [group_id], references: [id])
-  group_id   String
+
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
+
+  group    Group  @relation(fields: [group_id], references: [id])
+  group_id String
 
   @@map("payments")
 }
 
 model Group {
-  id          String     @id @default(uuid())
+  id          String  @id @default(uuid())
   title       String
-  icon        String
+  icon        String?
   description String?
-  created_at  DateTime   @default(now())
   latitude    Decimal
   longitude   Decimal
-  user        User?      @relation(fields: [user_id], references: [id])
-  user_id     String?
-  Payment     Payment[]
-  Presence    Presence[]
+
+  user    User?   @relation(fields: [user_id], references: [id])
+  user_id String?
+
+  Payment Payment[]
+
+  Presence Presence[]
 
   @@map("groups")
 }
 
 model Presence {
-  id         String   @id @default(uuid())
-  created_at DateTime @default(now())
-  user       User     @relation(fields: [user_id], references: [id])
-  user_id    String
-  group      Group    @relation(fields: [group_id], references: [id])
-  group_id   String
+  id           String    @id @default(uuid())
+  created_at   DateTime  @default(now())
+  validated_at DateTime?
+
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
+
+  group    Group  @relation(fields: [group_id], references: [id])
+  group_id String
 
   @@map("presence")
 }
