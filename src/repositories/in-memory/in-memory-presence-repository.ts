@@ -49,6 +49,7 @@ async create(data: Prisma.PresenceUncheckedCreateInput) {
     group_id: data.group_id,
     user_id: data.user_id,
     created_at: new Date(), 
+    validated_at: data.validated_at ? new Date(data.validated_at) : null, 
   };
 
   this.items.push(presence);
