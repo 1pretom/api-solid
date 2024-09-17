@@ -27,25 +27,10 @@ model User {
   date_of_birth String
   created_at    DateTime @default(now())
 
-  Payment  Payment[]
   Group    Group[]
   Presence Presence[]
 
   @@map("users")
-}
-
-model Payment {
-  id         String   @id @default(uuid())
-  amount     Float
-  created_at DateTime @default(now())
-
-  user    User   @relation(fields: [user_id], references: [id])
-  user_id String
-
-  group    Group  @relation(fields: [group_id], references: [id])
-  group_id String
-
-  @@map("payments")
 }
 
 model Group {
@@ -58,8 +43,6 @@ model Group {
 
   user    User?   @relation(fields: [user_id], references: [id])
   user_id String?
-
-  Payment Payment[]
 
   Presence Presence[]
 
