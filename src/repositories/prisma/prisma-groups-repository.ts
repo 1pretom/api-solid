@@ -18,11 +18,15 @@ export class PrismaGroupsRepository implements GroupsRepository {
     });
     return group;
   }
-  async findManyNearby(params: FindManyNearbyParams) {
-    throw new Error("Method not implemented.");
+  async findManyNearby({ latitude, longitude }: FindManyNearbyParams) {
+    const gyms = await prisma.$queryRaw<Group[]>`
+    SELECT * from gyms
+    WHERE ( 6371 * acos( cos( radians(${latitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(${longitude}) ) + sin( radians(${latitude}) ) * sin( radians( latitude ) ) ) ) <= 10 
+   `;
+    return gyms;
   }
   async searchMany(query: string, page: number) {
-    const group = await prisma.group.findMany({
+    const groups = await prisma.group.findMany({
       where: {
         title: {
           contains: query,
@@ -31,6 +35,6 @@ export class PrismaGroupsRepository implements GroupsRepository {
       take: 20,
       skip: (page - 1) * 20,
     });
-    return group;
+    return groups;
   }
 }
