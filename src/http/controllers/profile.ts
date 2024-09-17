@@ -3,7 +3,7 @@ import { makeGetUserProfileUseCase } from "@/use-cases/factories/make-get-user-p
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
-export const getUserProfile = async (
+export const profile = async (
   request: FastifyRequest,
   reply: FastifyReply
 ) => {
