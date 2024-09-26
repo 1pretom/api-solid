@@ -20,7 +20,7 @@ Apps to save data.
 - [x] O usuário não deve poder se cadastrar com um e-mail duplicado;
 - [x] O usuário não pode registrar 2 presenças no mesmo dia;
 - [x] O usuário não pode registrar presença se não estiver perto (100m) do grupo;
-- [ ] O pagamento só pode ser validado até 20 minutos após criado;
+- [x] O pagamento só pode ser validado até 20 minutos após criado;
 - [ ] O pagamento só pode ser validado por administradores
 - [ ] A academia só pode ser cadastrada por administradores.
 
