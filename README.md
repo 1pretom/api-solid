@@ -1,6 +1,6 @@
 # This is a repository that I will use as backend to save some data
 
-Apps to save data.
+App to save data.
 
 ## RFs (requisitos funcionais)
 
