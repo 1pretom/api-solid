@@ -1,4 +1,4 @@
-# This is a repository that I will use as backend to save some data
+# This is a repository that I will use as backend to save any data
 
 App to save data.
 
